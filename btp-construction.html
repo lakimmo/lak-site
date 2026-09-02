@@ -1,5 +1,8 @@
 <meta charset="UTF-8">
 <title>LAK — BTP & Construction</title>
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" href="assets/favicon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -48,9 +51,11 @@
   header{ position:fixed; top:0; left:0; right:0; z-index:100; padding:16px clamp(20px,5vw,56px); display:flex; align-items:center; justify-content:space-between; background:color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
   .logo{ font-family:var(--font-display); font-weight:800; font-size:20px; }
   .logo em{ font-style:normal; color:var(--accent); }
-  .back-link{ font-family:var(--font-mono); font-size:12.5px; color:var(--ink-dim); display:flex; align-items:center; gap:6px; }
+  .back-link{ font-family:var(--font-mono); font-size:12.5px; color:var(--ink-dim); display:flex; align-items:center; gap:8px; }
   .back-link:hover{ color:var(--accent); }
   .back-link svg{ width:14px;height:14px; }
+  .back-link img{ height:13px; width:auto; display:block; opacity:.85; }
+  .back-link:hover img{ opacity:1; }
   .header-actions{ display:flex; align-items:center; gap:12px; }
   @media (max-width:640px){ .header-actions .btn-outline{ display:none; } }
 
@@ -149,7 +154,7 @@
 </a>
 
 <header>
-  <a href="index.html" class="back-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> LAK</a>
+  <a href="index.html" class="back-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg><img src="assets/logo-wordmark.png" alt="LAK"></a>
   <div class="header-actions">
     <a href="index.html#tarifs" class="btn btn-outline btn-sm">Voir les tarifs</a>
     <a href="#" class="btn btn-accent btn-sm wa-link">Prendre RDV</a>

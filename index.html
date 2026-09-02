@@ -1,5 +1,8 @@
 <meta charset="UTF-8">
 <title>LAK Atelier</title>
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" href="assets/favicon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -67,7 +70,8 @@
   /* ============ HEADER ============ */
   header{ position:fixed; top:0; left:0; right:0; z-index:100; padding:16px clamp(20px,5vw,56px); display:flex; align-items:center; justify-content:space-between; background:color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid transparent; transition:border-color .3s ease; }
   header.scrolled{ border-bottom-color:var(--line-strong); }
-  .logo{ font-family:var(--font-display); font-weight:800; font-size:20px; text-decoration:none; color:var(--ink); }
+  .logo{ font-family:var(--font-display); font-weight:800; font-size:20px; text-decoration:none; color:var(--ink); display:inline-flex; }
+  .logo img{ height:20px; width:auto; display:block; }
   .logo em{ font-style:normal; color:var(--accent); }
   nav.primary-nav{ display:flex; align-items:center; gap:30px; }
   nav.primary-nav a{ font-size:13.5px; font-weight:600; text-decoration:none; color:var(--ink-dim); transition:color .25s ease; }
@@ -338,7 +342,8 @@
   /* ============ FOOTER ============ */
   footer{ padding:56px 0 30px; border-top:1px solid var(--line-strong); }
   .footer-top{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:40px; }
-  .footer-brand .logo{ margin-bottom:14px; display:inline-block; }
+  .footer-brand .logo{ margin-bottom:14px; }
+  .footer-brand .logo img{ height:22px; }
   .footer-brand p{ color:var(--ink-dim); font-size:13.5px; max-width:270px; }
   .footer-col h4{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-faint); font-weight:600; margin-bottom:15px; }
   .footer-col a{ display:block; text-decoration:none; color:var(--ink-dim); font-size:14px; margin-bottom:10px; transition:color .2s ease; }
@@ -364,7 +369,7 @@
 </a>
 
 <header id="siteHeader">
-  <a href="#top" class="logo">L<em>A</em>K</a>
+  <a href="#top" class="logo"><img src="assets/logo-wordmark.png" alt="LAK"></a>
   <nav class="primary-nav">
     <a href="#services">Services</a>
     <a href="#secteurs">Secteurs</a>
@@ -849,7 +854,7 @@
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="#top" class="logo">L<em>A</em>K</a>
+        <a href="#top" class="logo"><img src="assets/logo-wordmark.png" alt="LAK"></a>
         <p>Agence IA &amp; automatisation basée à Paris. On conçoit des systèmes qui tiennent en production, pas des démos.</p>
       </div>
       <div class="footer-col"><h4>Navigation</h4><a href="#services">Services</a><a href="#secteurs">Secteurs</a><a href="#methode">Méthode</a><a href="#realisations">Réalisations</a></div>
