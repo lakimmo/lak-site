@@ -1,0 +1,455 @@
+<meta charset="UTF-8">
+<title>LAK Onboarding</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#F1EBDD; --bg-panel:#FFFFFF; --bg-sidebar:#FAF6EC;
+    --ink:#171310; --ink-dim:#6E6454; --ink-faint:#B7AB93;
+    --accent:#FF6B1A; --accent-soft:#FFE0C4;
+    --line:#D9CDB2; --line-strong:#171310;
+    --success:#2E7D46; --success-soft:#DFF0E2;
+    --font-display:'Bricolage Grotesque','Arial Black',sans-serif;
+    --font-body:'Instrument Sans',-apple-system,'Segoe UI',sans-serif;
+    --font-mono:'JetBrains Mono','SFMono-Regular',Consolas,monospace;
+    --ease:cubic-bezier(.16,.84,.44,1);
+  }
+  *{box-sizing:border-box;}
+  [hidden]{ display:none !important; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; min-height:100vh; }
+  a{ color:inherit; }
+  ::selection{ background:var(--accent); color:#fff; }
+  h1,h2,h3{ font-family:var(--font-display); font-weight:800; line-height:1.1; letter-spacing:-0.01em; margin:0; text-wrap:balance; }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  button{ font-family:inherit; }
+
+  .eyebrow{ font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-dim); display:inline-flex; align-items:center; gap:8px; }
+  .eyebrow::before{ content:""; width:6px;height:6px; background:var(--accent); }
+
+  .tick{ position:absolute; width:14px; height:14px; pointer-events:none; }
+  .tick::before, .tick::after{ content:""; position:absolute; background:var(--ink); }
+  .tick::before{ width:14px; height:1.5px; top:6px; }
+  .tick::after{ width:1.5px; height:14px; left:6px; }
+  .tick.tl{ top:-7px; left:-7px; } .tick.tr{ top:-7px; right:-7px; }
+  .tick.bl{ bottom:-7px; left:-7px; } .tick.br{ bottom:-7px; right:-7px; }
+  .plaque{ position:relative; background:var(--bg-panel); border:1px solid var(--ink); }
+
+  .btn{ appearance:none; -webkit-appearance:none; font-family:var(--font-body); font-weight:700; font-size:15px; display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:14px 26px; border-radius:2px; border:1px solid transparent; text-decoration:none; cursor:pointer; white-space:nowrap; transition:transform .2s var(--ease), background .2s ease, color .2s ease, border-color .2s ease; }
+  .btn:active{ transform:scale(.97); }
+  .btn-accent{ background:var(--accent); color:#fff; }
+  .btn-accent:hover{ background:#e85f13; }
+  .btn-outline{ background:transparent; color:var(--ink); border-color:var(--line-strong); }
+  .btn-outline:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-sm{ padding:10px 18px; font-size:13px; }
+  .btn[disabled]{ opacity:.5; cursor:not-allowed; }
+
+  .wrap{ max-width:620px; margin:0 auto; padding:70px 20px 60px; }
+
+  .progress{ display:flex; align-items:center; gap:14px; margin-bottom:36px; }
+  .progress-label{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-dim); flex:none; }
+  .progress-bar{ flex:1; height:2px; background:var(--line-strong); opacity:.3; position:relative; }
+  .progress-fill{ position:absolute; left:0; top:0; height:100%; background:var(--accent); transition:width .4s var(--ease); }
+
+  .stage-plaque{ padding:clamp(36px,6vw,56px) clamp(26px,5vw,48px); }
+  .stage-plaque h1{ font-size:clamp(26px,4vw,36px); margin-top:14px; }
+  .stage-plaque > p.lead{ color:var(--ink-dim); font-size:15.5px; margin:16px 0 0; }
+  .stage-nav{ margin-top:22px; display:flex; align-items:center; justify-content:space-between; gap:14px; }
+  .stage-nav-spacer{ flex:1; }
+
+  .offer-price{ font-family:var(--font-mono); font-size:32px; font-weight:600; color:var(--accent); margin-top:6px; }
+  .benefit-list{ list-style:none; padding:0; margin:22px 0 0; display:flex; flex-direction:column; gap:10px; }
+  .benefit-list li{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; }
+  .benefit-list svg{ width:16px;height:16px; color:var(--accent); flex:none; margin-top:2px; }
+  .pay-box{ margin-top:26px; padding:20px; border:1px solid var(--line-strong); background:var(--bg); }
+  .pay-box .p-label{ font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); margin-bottom:4px; }
+  .pay-box .p-row{ display:flex; justify-content:space-between; gap:12px; padding:6px 0; font-size:14px; border-top:1px solid var(--line); }
+  .pay-box .p-row:first-of-type{ border-top:none; }
+
+  .task-list{ list-style:none; padding:0; margin:16px 0 0; display:flex; flex-direction:column; gap:2px; }
+  .task-item{ display:flex; align-items:center; gap:12px; padding:13px 0; border-top:1px solid var(--line); font-size:14.5px; }
+  .task-item:first-child{ border-top:none; }
+  .task-item .t-check{ width:20px;height:20px; border:1px solid var(--line-strong); flex:none; display:flex; align-items:center; justify-content:center; }
+  .task-item.done .t-check{ background:var(--success); border-color:var(--success); color:#fff; }
+  .task-item.done .t-label{ color:var(--ink-faint); text-decoration:line-through; }
+  .task-item .t-check svg{ width:12px;height:12px; }
+  .task-item .t-link{ margin-left:auto; font-family:var(--font-mono); font-size:11.5px; color:var(--accent); text-decoration:underline; white-space:nowrap; cursor:pointer; }
+
+  .error-plaque{ text-align:center; padding:60px 30px; }
+  .error-plaque p{ color:var(--ink-dim); margin-top:10px; }
+  .loading-state{ text-align:center; padding:80px 20px; font-family:var(--font-mono); font-size:13px; color:var(--ink-faint); }
+
+  /* ============ CLIENT SPACE (app shell) ============ */
+  .space-shell{ display:flex; min-height:100vh; }
+  .space-sidebar{ width:230px; flex:none; background:var(--bg-sidebar); border-right:1px solid var(--line-strong); padding:26px 20px; display:flex; flex-direction:column; gap:26px; position:sticky; top:0; height:100vh; }
+  .space-logo{ font-family:var(--font-display); font-weight:800; font-size:19px; }
+  .space-logo em{ font-style:normal; color:var(--accent); }
+  .space-client{ font-size:13px; color:var(--ink-dim); margin-top:-14px; }
+  .space-nav{ display:flex; flex-direction:column; gap:4px; }
+  .space-navlink{ display:flex; align-items:center; gap:10px; text-align:left; background:none; border:none; border-left:2px solid transparent; padding:10px 12px; font-size:14px; font-weight:600; color:var(--ink-dim); cursor:pointer; }
+  .space-navlink svg{ width:16px;height:16px; flex:none; }
+  .space-navlink:hover{ color:var(--ink); }
+  .space-navlink.active{ color:var(--ink); background:var(--bg-panel); border-left-color:var(--accent); }
+  @media (max-width:820px){
+    .space-shell{ flex-direction:column; }
+    .space-sidebar{ width:auto; height:auto; position:relative; flex-direction:row; align-items:center; overflow-x:auto; padding:14px 18px; }
+    .space-client{ display:none; }
+    .space-nav{ flex-direction:row; }
+    .space-navlink{ border-left:none; border-bottom:2px solid transparent; white-space:nowrap; }
+    .space-navlink.active{ border-bottom-color:var(--accent); }
+  }
+  .space-main{ flex:1; padding:clamp(28px,4vw,52px); min-width:0; }
+  .space-page-head{ margin-bottom:26px; }
+  .space-page-head h1{ font-size:clamp(22px,3vw,28px); }
+  .space-page-head p{ color:var(--ink-dim); font-size:13.5px; margin-top:6px; }
+
+  .dash-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:20px; align-items:start; }
+  @media (max-width:900px){ .dash-grid{ grid-template-columns:1fr; } }
+  .dash-card{ padding:22px; margin-bottom:20px; }
+  .dash-card h3{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:14px; }
+  .roadmap-mini{ font-family:var(--font-mono); font-size:28px; font-weight:600; color:var(--accent); }
+  .roadmap-mini-label{ font-size:12.5px; color:var(--ink-dim); margin-top:4px; }
+
+  .roadmap-list{ display:flex; flex-direction:column; gap:14px; }
+  .roadmap-item{ padding:18px; display:flex; flex-direction:column; gap:8px; }
+  .roadmap-item .r-top{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .roadmap-item h4{ font-family:var(--font-body); font-weight:800; font-size:15px; margin:0; }
+  .roadmap-item p{ margin:0; color:var(--ink-dim); font-size:13.5px; }
+  .badge{ display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase; padding:4px 9px; border:1px solid currentColor; flex:none; }
+  .badge-neutral{ color:var(--ink-dim); }
+  .badge-accent{ color:var(--accent); }
+  .badge-success{ color:var(--success); background:var(--success-soft); border-color:var(--success); }
+
+  .msg-thread{ display:flex; flex-direction:column; gap:12px; padding:20px; height:420px; overflow-y:auto; }
+  .msg-bubble{ max-width:75%; padding:11px 14px; font-size:14px; line-height:1.4; }
+  .msg-bubble.client{ align-self:flex-end; background:var(--accent); color:#fff; }
+  .msg-bubble.agency{ align-self:flex-start; background:var(--bg); border:1px solid var(--line-strong); }
+  .msg-bubble .m-time{ display:block; margin-top:5px; font-family:var(--font-mono); font-size:9.5px; opacity:.7; }
+  .msg-compose{ display:flex; gap:10px; margin-top:14px; }
+  .msg-compose textarea{ flex:1; font-family:var(--font-body); font-size:14px; padding:12px; border:1px solid var(--line-strong); resize:none; min-height:52px; }
+  .msg-empty{ color:var(--ink-faint); font-size:13px; text-align:center; margin:auto; }
+
+  .cal-embed-space{ background:var(--bg-panel); border:1px solid var(--ink); overflow:hidden; height:640px; padding:4px; }
+  .cal-embed-space > div{ width:100%; height:100%; }
+</style>
+
+<div class="wrap" id="funnelWrap">
+  <div id="loadingState" class="loading-state">Chargement de votre espace…</div>
+
+  <div id="errorState" class="plaque error-plaque" hidden>
+    <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+    <span class="eyebrow" style="justify-content:center;">Lien invalide</span>
+    <h1 style="margin-top:14px;">Ce lien n'est plus valide.</h1>
+    <p>Vérifiez le lien reçu, ou contactez votre interlocuteur chez LAK.</p>
+  </div>
+
+  <div id="stageIntro" hidden>
+    <div class="progress"><span class="progress-label">Étape 1 / 3</span><span class="progress-bar"><span class="progress-fill" style="width:33%;"></span></span></div>
+    <div class="stage-plaque plaque">
+      <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+      <span class="eyebrow">Onboarding</span>
+      <h1 id="introTitle"></h1>
+      <p class="lead" id="introBody"></p>
+    </div>
+    <div class="stage-nav"><span class="stage-nav-spacer"></span><button class="btn btn-accent" id="introNext">Continuer →</button></div>
+  </div>
+
+  <div id="stageOffer" hidden>
+    <div class="progress"><span class="progress-label">Étape 2 / 3</span><span class="progress-bar"><span class="progress-fill" style="width:66%;"></span></span></div>
+    <div class="stage-plaque plaque">
+      <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+      <span class="eyebrow">Votre offre</span>
+      <h1 id="offerTitle"></h1>
+      <div class="offer-price" id="offerPrice"></div>
+      <ul class="benefit-list" id="offerBenefits"></ul>
+      <div class="pay-box" id="offerPayBox"></div>
+    </div>
+    <div class="stage-nav"><button class="btn btn-outline" id="offerPrev">← Précédent</button><button class="btn btn-accent" id="offerNext">Paiement effectué</button></div>
+  </div>
+
+  <div id="stageContract" hidden>
+    <div class="progress"><span class="progress-label">Étape 3 / 3</span><span class="progress-bar"><span class="progress-fill" style="width:100%;"></span></span></div>
+    <div class="stage-plaque plaque">
+      <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+      <span class="eyebrow">Contrat</span>
+      <h1>Dernière étape avant de démarrer.</h1>
+      <p class="lead">Relisez et signez votre contrat en ligne, puis confirmez ci-dessous.</p>
+      <div style="margin-top:22px;"><a class="btn btn-outline" id="contractLink" href="#" target="_blank" rel="noopener">Voir et signer le contrat ↗</a></div>
+    </div>
+    <div class="stage-nav"><button class="btn btn-outline" id="contractPrev">← Précédent</button><button class="btn btn-accent" id="contractNext">Contrat signé</button></div>
+  </div>
+</div>
+
+<div id="stageSpace" hidden>
+  <div class="space-shell">
+    <aside class="space-sidebar">
+      <div>
+        <div class="space-logo">L<em>A</em>K</div>
+        <div class="space-client" id="spaceClientName"></div>
+      </div>
+      <nav class="space-nav">
+        <button class="space-navlink active" data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="5"/><rect x="13" y="12" width="8" height="9"/><rect x="3" y="15" width="8" height="6"/></svg> Dashboard</button>
+        <button class="space-navlink" data-page="roadmap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V5M4 5l6 4-6 4M14 19V9M14 9l6 4-6 4"/></svg> Roadmap</button>
+        <button class="space-navlink" data-page="messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg> Messages</button>
+        <button class="space-navlink" data-page="rdv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 9h18M8 3v4M16 3v4"/></svg> Rendez-vous</button>
+      </nav>
+    </aside>
+    <main class="space-main">
+
+      <section data-page-panel="dashboard">
+        <div class="space-page-head"><span class="eyebrow">Votre espace</span><h1 id="spaceGreeting" style="margin-top:8px;"></h1><p id="spaceBriefing"></p></div>
+        <div class="dash-grid">
+          <div>
+            <div class="dash-card plaque"><span class="tick tl"></span><span class="tick br"></span><h3>Vos tâches</h3><ul class="task-list" id="spaceTasks"></ul></div>
+          </div>
+          <div>
+            <div class="dash-card plaque"><span class="tick tl"></span><span class="tick br"></span><h3>Roadmap</h3><div class="roadmap-mini" id="dashRoadmapCount">0/0</div><div class="roadmap-mini-label">objectifs atteints</div></div>
+            <div class="dash-card plaque"><span class="tick tl"></span><span class="tick br"></span><h3>Un besoin ?</h3><p style="font-size:13.5px;color:var(--ink-dim);margin:0 0 14px;">Envoyez un message ou réservez un créneau directement.</p><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-outline btn-sm" data-goto="messages">Écrire un message</button><button class="btn btn-outline btn-sm" data-goto="rdv">Prendre RDV</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-page-panel="roadmap" hidden>
+        <div class="space-page-head"><span class="eyebrow">Suivi de projet</span><h1 style="margin-top:8px;">Roadmap</h1><p>Les grandes étapes de votre projet, mises à jour par l'équipe LAK.</p></div>
+        <div class="roadmap-list" id="roadmapList"></div>
+      </section>
+
+      <section data-page-panel="messages" hidden>
+        <div class="space-page-head"><span class="eyebrow">Échanges</span><h1 style="margin-top:8px;">Messages</h1><p>Écrivez directement à votre interlocuteur LAK.</p></div>
+        <div class="plaque" style="display:flex;flex-direction:column;">
+          <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+          <div class="msg-thread" id="msgThread"></div>
+          <div class="msg-compose" style="padding:0 20px 20px;">
+            <textarea id="msgInput" placeholder="Écrivez votre message…"></textarea>
+            <button class="btn btn-accent" id="msgSend">Envoyer</button>
+          </div>
+        </div>
+      </section>
+
+      <section data-page-panel="rdv" hidden>
+        <div class="space-page-head"><span class="eyebrow">Planning</span><h1 style="margin-top:8px;">Rendez-vous</h1><p>Réservez un créneau directement dans l'agenda de l'équipe.</p></div>
+        <div class="cal-embed-space">
+          <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-space"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Cal inline embed code begins -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", "space", {origin:"https://app.cal.com"});
+  Cal.config = Cal.config || {};
+  Cal.config.forwardQueryParams = true;
+  Cal.ns["space"]("inline", {
+    elementOrSelector:"#my-cal-inline-space",
+    config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"light"},
+    calLink: "lak-agency/5",
+  });
+  Cal.ns["space"]("ui", {"hideEventTypeDetails":true,"layout":"month_view","theme":"light"});
+</script>
+<!-- Cal inline embed code ends -->
+
+<script>
+(function(){
+  var SUPABASE_URL = 'https://swmkvgszzvnylmbdaixz.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3bWt2Z3N6enZueWxtYmRhaXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyMDE4NzYsImV4cCI6MjEwMzc3Nzg3Nn0.QaTYacSdIDWzkwQx10DDpMz8CrMylLUvu4iP5uSm3cM';
+  var STAGE_ORDER = ['intro','offer','contract','space'];
+  var ROADMAP_STATUS_LABELS = { a_faire:'À faire', en_cours:'En cours', termine:'Terminé' };
+
+  var params = new URLSearchParams(window.location.search);
+  var token = params.get('token');
+  var currentData = null;
+
+  var screens = {
+    loading: document.getElementById('loadingState'),
+    error: document.getElementById('errorState'),
+    intro: document.getElementById('stageIntro'),
+    offer: document.getElementById('stageOffer'),
+    contract: document.getElementById('stageContract')
+  };
+  var funnelWrap = document.getElementById('funnelWrap');
+  var spaceShell = document.getElementById('stageSpace');
+
+  function showOnly(name){
+    funnelWrap.hidden = (name === 'space');
+    spaceShell.hidden = (name !== 'space');
+    if(name !== 'space'){
+      Object.keys(screens).forEach(function(k){ screens[k].hidden = (k !== name); });
+    }
+  }
+
+  function rpc(name, body){
+    return fetch(SUPABASE_URL + '/rest/v1/rpc/' + name, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'apikey':SUPABASE_ANON_KEY, 'Authorization':'Bearer ' + SUPABASE_ANON_KEY },
+      body: JSON.stringify(body)
+    }).then(function(r){ if(!r.ok) throw new Error('rpc failed'); return r.json(); });
+  }
+
+  function escapeHtml(str){
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function(m){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m];
+    });
+  }
+  function formatDate(d){
+    if(!d) return '—';
+    var date = new Date(d);
+    if(isNaN(date)) return '—';
+    return date.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+  function formatTime(d){
+    var date = new Date(d);
+    return date.toLocaleString('fr-FR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function load(){
+    if(!token){ showOnly('error'); return; }
+    rpc('get_onboarding', { p_token: token }).then(function(data){
+      if(!data || !data.name){ showOnly('error'); return; }
+      currentData = data;
+      render(data);
+    }).catch(function(){ showOnly('error'); });
+  }
+
+  function goStage(newStage){
+    rpc('advance_onboarding', { p_token: token, p_stage: newStage }).then(load);
+  }
+
+  function render(data){
+    var cfg = data.config || {};
+    var stage = data.stage;
+
+    if(stage === 'intro'){
+      document.getElementById('introTitle').textContent = (cfg.intro && cfg.intro.title) || 'Bienvenue';
+      document.getElementById('introBody').textContent = (cfg.intro && cfg.intro.body) || '';
+      showOnly('intro');
+    } else if(stage === 'offer'){
+      var offer = cfg.offer || {};
+      document.getElementById('offerTitle').textContent = offer.title || 'Votre offre';
+      document.getElementById('offerPrice').textContent = offer.price || '';
+      var benefits = Array.isArray(offer.benefits) ? offer.benefits : [];
+      document.getElementById('offerBenefits').innerHTML = benefits.map(function(b){
+        return '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg>' + escapeHtml(b) + '</li>';
+      }).join('');
+      var payBox = document.getElementById('offerPayBox');
+      if(offer.payment_type === 'iban'){
+        payBox.innerHTML =
+          '<div class="p-label">Virement bancaire</div>' +
+          '<div class="p-row"><span>Titulaire</span><span>' + escapeHtml(offer.account_holder || '—') + '</span></div>' +
+          '<div class="p-row"><span>IBAN</span><span>' + escapeHtml(offer.iban || '—') + '</span></div>' +
+          '<div class="p-row"><span>BIC</span><span>' + escapeHtml(offer.bic || '—') + '</span></div>';
+      } else if(offer.payment_link){
+        payBox.innerHTML = '<a class="btn btn-accent" href="' + escapeHtml(offer.payment_link) + '" target="_blank" rel="noopener" style="width:100%;">Payer en ligne ↗</a>';
+      } else {
+        payBox.innerHTML = '<span class="p-label">Coordonnées de paiement à venir</span>';
+      }
+      showOnly('offer');
+    } else if(stage === 'contract'){
+      document.getElementById('contractLink').href = (cfg.contract && cfg.contract.url) || '#';
+      showOnly('contract');
+    } else if(stage === 'space'){
+      renderSpace(data);
+      showOnly('space');
+    } else {
+      showOnly('error');
+    }
+  }
+
+  document.getElementById('introNext').addEventListener('click', function(e){ e.target.disabled = true; goStage('offer'); });
+  document.getElementById('offerPrev').addEventListener('click', function(){ goStage('intro'); });
+  document.getElementById('offerNext').addEventListener('click', function(e){
+    e.target.disabled = true;
+    Promise.all([ rpc('advance_onboarding', { p_token: token, p_stage: 'contract' }), rpc('set_onboarding_task_done', { p_token: token, p_task_index: 0, p_done: true }) ]).then(load);
+  });
+  document.getElementById('contractPrev').addEventListener('click', function(){ goStage('offer'); });
+  document.getElementById('contractNext').addEventListener('click', function(e){
+    e.target.disabled = true;
+    Promise.all([ rpc('advance_onboarding', { p_token: token, p_stage: 'space' }), rpc('set_onboarding_task_done', { p_token: token, p_task_index: 1, p_done: true }) ]).then(load);
+  });
+
+  /* ---------------- Client space (multi-page) ---------------- */
+  function renderSpace(data){
+    var cfg = data.config || {};
+    document.getElementById('spaceClientName').textContent = data.company || data.name || '';
+    document.getElementById('spaceGreeting').textContent = 'Bonjour ' + (data.name || '') + '.';
+    document.getElementById('spaceBriefing').textContent = cfg.briefing || '';
+
+    var tasks = Array.isArray(cfg.tasks) ? cfg.tasks : [];
+    document.getElementById('spaceTasks').innerHTML = tasks.length ? tasks.map(function(t, i){
+      var linkHtml = (t.link && !t.done) ? '<span class="t-link" data-task-link="' + i + '">Ouvrir ↗</span>' : '';
+      return '<li class="task-item' + (t.done ? ' done' : '') + '">' +
+        '<span class="t-check">' + (t.done ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>' : '') + '</span>' +
+        '<span class="t-label">' + escapeHtml(t.label) + '</span>' + linkHtml +
+      '</li>';
+    }).join('') : '<p class="msg-empty">Aucune tâche pour le moment.</p>';
+    document.querySelectorAll('[data-task-link]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var idx = parseInt(el.dataset.taskLink, 10);
+        window.open(tasks[idx].link, '_blank', 'noopener');
+        rpc('set_onboarding_task_done', { p_token: token, p_task_index: idx, p_done: true }).then(load);
+      });
+    });
+
+    /* nav */
+    document.querySelectorAll('.space-navlink').forEach(function(btn){
+      btn.onclick = function(){
+        document.querySelectorAll('.space-navlink').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        document.querySelectorAll('[data-page-panel]').forEach(function(p){ p.hidden = (p.dataset.pagePanel !== btn.dataset.page); });
+        if(btn.dataset.page === 'roadmap') loadRoadmap();
+        if(btn.dataset.page === 'messages') loadMessages();
+      };
+    });
+    document.querySelectorAll('[data-goto]').forEach(function(el){
+      el.onclick = function(){ document.querySelector('.space-navlink[data-page="' + el.dataset.goto + '"]').click(); };
+    });
+
+    loadRoadmap();
+  }
+
+  function loadRoadmap(){
+    rpc('get_client_roadmap', { p_token: token }).then(function(items){
+      var done = items.filter(function(i){ return i.status === 'termine'; }).length;
+      document.getElementById('dashRoadmapCount').textContent = done + '/' + items.length;
+      var list = document.getElementById('roadmapList');
+      list.innerHTML = items.length ? items.map(function(i){
+        var cls = i.status === 'termine' ? 'badge-success' : i.status === 'en_cours' ? 'badge-accent' : 'badge-neutral';
+        return '<div class="roadmap-item plaque"><span class="tick tl"></span><span class="tick br"></span>' +
+          '<div class="r-top"><h4>' + escapeHtml(i.title) + '</h4><span class="badge ' + cls + '">' + escapeHtml(ROADMAP_STATUS_LABELS[i.status] || i.status) + '</span></div>' +
+          (i.description ? '<p>' + escapeHtml(i.description) + '</p>' : '') +
+          (i.target_date ? '<p style="font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);">Échéance ' + formatDate(i.target_date) + '</p>' : '') +
+        '</div>';
+      }).join('') : '<p class="msg-empty">La roadmap sera bientôt disponible.</p>';
+    });
+  }
+
+  function loadMessages(){
+    rpc('get_client_messages', { p_token: token }).then(function(msgs){
+      var thread = document.getElementById('msgThread');
+      thread.innerHTML = msgs.length ? msgs.map(function(m){
+        return '<div class="msg-bubble ' + m.sender + '">' + escapeHtml(m.body) + '<span class="m-time">' + formatTime(m.created_at) + '</span></div>';
+      }).join('') : '<p class="msg-empty">Aucun message pour le moment. Écrivez le premier !</p>';
+      thread.scrollTop = thread.scrollHeight;
+    });
+  }
+
+  document.getElementById('msgSend').addEventListener('click', function(){
+    var input = document.getElementById('msgInput');
+    var body = input.value.trim();
+    if(!body) return;
+    input.value = '';
+    rpc('send_client_message', { p_token: token, p_body: body }).then(loadMessages);
+  });
+
+  setInterval(function(){
+    if(!spaceShell.hidden){
+      var msgPanel = document.querySelector('[data-page-panel="messages"]');
+      if(msgPanel && !msgPanel.hidden) loadMessages();
+    }
+  }, 15000);
+
+  load();
+})();
+</script>
