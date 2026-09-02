@@ -63,22 +63,17 @@
   .reveal-stagger.in-view > *:nth-child(2){transition-delay:.10s;}
   .reveal-stagger.in-view > *:nth-child(3){transition-delay:.18s;}
 
-  /* ============ HERO ============ */
-  .hero{ padding:150px 0 70px; position:relative; }
-  .hero-grid{ position:absolute; inset:0; background-image:linear-gradient(to right, var(--line-strong) 1px, transparent 1px), linear-gradient(to bottom, var(--line-strong) 1px, transparent 1px); background-size:56px 56px; -webkit-mask-image:linear-gradient(to bottom, black, transparent 75%); mask-image:linear-gradient(to bottom, black, transparent 75%); opacity:.4; }
-  .hero-inner{ position:relative; max-width:760px; }
-  .hero h1{ font-size:clamp(34px,5.6vw,58px); margin-top:18px; }
-  .hero h1 em{ font-style:normal; color:var(--accent); }
-  .hero p.lead{ color:var(--ink-dim); font-size:16.5px; margin-top:20px; max-width:540px; }
-  .hero .cta-row{ margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; }
-
-  /* ============ MARQUEE ============ */
-  .marquee-band{ background:var(--ink); color:#fff; padding:14px 0; overflow:hidden; white-space:nowrap; }
-  .marquee-track{ display:inline-flex; animation:marquee 24s linear infinite; }
-  .marquee-band:hover .marquee-track{ animation-play-state:paused; }
-  .marquee-item{ font-family:var(--font-mono); font-weight:600; font-size:14px; padding:0 24px; display:inline-flex; align-items:center; gap:24px; text-transform:uppercase; letter-spacing:.04em; }
-  .marquee-item::after{ content:"◆"; color:var(--accent); font-size:10px; }
-  @keyframes marquee{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  /* ============ HERO — bandeau compact ============ */
+  .hero{ padding:118px 0 34px; border-bottom:1px solid var(--line-strong); }
+  .hero-row{ display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap; }
+  .hero-left h1{ font-size:clamp(22px,2.6vw,30px); margin-top:8px; max-width:480px; }
+  .hero-left h1 em{ font-style:normal; color:var(--accent); }
+  .hero-left p.lead{ color:var(--ink-dim); font-size:13.5px; margin:8px 0 0; max-width:420px; }
+  .hero-facts{ display:flex; flex-direction:column; gap:8px; padding:16px 20px; flex:none; min-width:230px; }
+  .hero-facts div{ display:flex; justify-content:space-between; gap:16px; font-size:12.5px; padding:4px 0; border-top:1px solid var(--line); }
+  .hero-facts div:first-child{ border-top:none; }
+  .hero-facts span:last-child{ font-family:var(--font-mono); color:var(--accent); font-weight:600; }
+  .hero-facts .btn{ margin-top:8px; width:100%; justify-content:center; }
 
   /* ============ CONSTAT ============ */
   .constat blockquote{ margin:0; font-family:var(--font-display); font-weight:700; font-size:clamp(24px,3.6vw,42px); line-height:1.18; max-width:820px; }
@@ -163,24 +158,21 @@
 
 <main>
   <section class="hero">
-    <div class="hero-grid"></div>
-    <div class="wrap hero-inner">
-      <span class="eyebrow reveal">Secteur — Expert comptable</span>
-      <h1 class="reveal">Moins de relances, plus de temps pour conseiller vos clients.</h1>
-      <p class="lead reveal">Automatisez les relances pour pièces manquantes, la préparation des dossiers et la saisie répétitive — sans changer votre logiciel comptable.</p>
-      <div class="cta-row reveal">
-        <a href="#" class="btn btn-accent wa-link">Discuter sur WhatsApp</a>
-        <a href="#contact" class="btn btn-outline">Réserver un créneau</a>
+    <div class="wrap hero-row">
+      <div class="hero-left reveal">
+        <span class="eyebrow">Secteur — Expert comptable</span>
+        <h1>Moins de relances, plus de temps pour conseiller vos clients.</h1>
+        <p class="lead">Automatisez les relances pour pièces manquantes, la préparation des dossiers et la saisie répétitive — sans changer votre logiciel comptable.</p>
+      </div>
+      <div class="hero-facts plaque reveal">
+        <span class="tick tl"></span><span class="tick br"></span>
+        <div><span>Secteur</span><span>Expert comptable</span></div>
+        <div><span>Délai moyen</span><span>3 semaines</span></div>
+        <div><span>Engagement</span><span>Aucun</span></div>
+        <a href="#" class="btn btn-accent btn-sm wa-link">Discuter sur WhatsApp</a>
       </div>
     </div>
   </section>
-
-  <div class="marquee-band" aria-hidden="true">
-    <div class="marquee-track">
-      <span class="marquee-item">Un client qui n'envoie jamais ses justificatifs</span><span class="marquee-item">Une saisie répétitive chaque mois</span><span class="marquee-item">Une période fiscale qui déborde sur les soirées</span><span class="marquee-item">Des dossiers à préparer à la main</span>
-      <span class="marquee-item">Un client qui n'envoie jamais ses justificatifs</span><span class="marquee-item">Une saisie répétitive chaque mois</span><span class="marquee-item">Une période fiscale qui déborde sur les soirées</span><span class="marquee-item">Des dossiers à préparer à la main</span>
-    </div>
-  </div>
 
   <section class="constat section-pad">
     <div class="wrap reveal">
