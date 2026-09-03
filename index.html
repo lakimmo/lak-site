@@ -23,6 +23,7 @@
     --ease:cubic-bezier(.16,.84,.44,1);
   }
   *{box-sizing:border-box;}
+  [hidden]{ display:none !important; }
   html{scroll-behavior:smooth;}
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto;}
@@ -218,11 +219,14 @@
   @keyframes funnel-fade{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
   .funnel-result-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
   .funnel-result-tags span{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-dim); border:1px solid var(--line-strong); padding:5px 10px; }
-  .funnel-result h3{ font-family:var(--font-display); font-weight:800; font-size:clamp(19px,2.6vw,25px); margin-bottom:12px; }
-  .funnel-result p{ color:var(--ink-dim); font-size:15px; margin:0 0 22px; max-width:540px; }
-  .funnel-result-note{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:14px 16px; border:1px solid var(--line-strong); margin-bottom:26px; font-size:13.5px; color:var(--ink-dim); }
-  .funnel-result-note strong{ color:var(--ink); }
-  .funnel-result-note a{ margin-left:auto; font-family:var(--font-mono); font-size:11px; color:var(--accent); text-decoration:underline; white-space:nowrap; }
+  .funnel-result h3{ font-family:var(--font-display); font-weight:800; font-size:clamp(19px,2.6vw,25px); margin-bottom:16px; }
+  .funnel-result-body{ margin-bottom:26px; }
+  .funnel-result-body p{ color:var(--ink-dim); font-size:15px; line-height:1.75; margin:0 0 16px; max-width:600px; }
+  .funnel-result-body p:last-child{ margin-bottom:0; }
+  .funnel-loading{ text-align:center; padding:64px 20px; }
+  .funnel-loading-spinner{ width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--accent); border-radius:50%; margin:0 auto 18px; animation:funnel-spin .8s linear infinite; }
+  @keyframes funnel-spin{ to{ transform:rotate(360deg); } }
+  .funnel-loading p{ font-family:var(--font-mono); font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-dim); margin:0; }
   .funnel-result-cta{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
   .funnel-restart{ font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); background:none; border:none; cursor:pointer; text-decoration:underline; padding:0; margin-top:20px; display:inline-block; }
   .funnel-restart:hover{ color:var(--ink); }
@@ -486,6 +490,131 @@
     </div>
   </section>
 
+  <section class="funnel section-pad" id="diagnostic">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow" style="margin-bottom:14px;display:inline-flex;">Diagnostic express</span>
+        <h2>Quelles automatisations pour vous ?</h2>
+        <p>Quelques questions, un diagnostic rédigé pour votre situation précise — pas un chiffre inventé.</p>
+      </div>
+
+      <div class="funnel-panel plaque reveal">
+        <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+
+        <div class="funnel-progress" id="funnelProgress">
+          <span class="funnel-progress-label" id="funnelProgressLabel">Étape 1 / 5</span>
+          <span class="funnel-progress-bar"><span class="funnel-progress-fill" id="funnelProgressFill"></span></span>
+        </div>
+
+        <div class="funnel-step funnel-fx" data-step="1">
+          <h3>Quel est votre secteur ?</h3>
+          <div class="funnel-options" data-question="sector">
+            <button type="button" class="funnel-option" data-value="btp">BTP &amp; Construction<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="services">Agence de services<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="recrutement">Agence de recrutement<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="immobilier">Immobilier<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="comptable">Expert comptable<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="autre">Autre secteur<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+          </div>
+          <div class="funnel-field" id="sectorOtherField" hidden>
+            <label for="funnelSectorOther">Précisez votre secteur</label>
+            <input type="text" id="funnelSectorOther" placeholder="Ex : coiffure, restauration, événementiel…">
+          </div>
+          <div class="funnel-step-actions" id="sectorOtherActions" hidden>
+            <button type="button" class="btn btn-accent" id="funnelSectorOtherNext">Continuer</button>
+          </div>
+        </div>
+
+        <div class="funnel-step" data-step="2" hidden>
+          <button type="button" class="funnel-back" data-back="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
+          <h3>Quelle est la taille de votre équipe ?</h3>
+          <div class="funnel-options" data-question="size">
+            <button type="button" class="funnel-option" data-value="solo">Solo / indépendant<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="petite">2 à 10 personnes<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="moyenne">11 à 50 personnes<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="grande">50 personnes et +<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+          </div>
+        </div>
+
+        <div class="funnel-step" data-step="3" hidden>
+          <button type="button" class="funnel-back" data-back="2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
+          <h3>Votre priorité n°1 en ce moment ?</h3>
+          <div class="funnel-options" data-question="task">
+            <button type="button" class="funnel-option" data-value="reponse">Réponse clients &amp; SAV<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="leads">Qualification &amp; suivi de leads<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="saisie">Saisie &amp; tâches administratives<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="planning">Planning &amp; coordination<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+            <button type="button" class="funnel-option" data-value="autre_tache">Autre chose<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
+          </div>
+          <div class="funnel-field" id="taskOtherField" hidden>
+            <label for="funnelTaskOther">Précisez votre priorité</label>
+            <input type="text" id="funnelTaskOther" placeholder="Ex : facturation, relances impayés…">
+          </div>
+          <div class="funnel-field" id="taskDetailField" hidden>
+            <label for="funnelTaskDetail">Détaillez plus votre priorité</label>
+            <textarea id="funnelTaskDetail" placeholder="Contexte, exemples concrets, fréquence, ce qui coince exactement…"></textarea>
+          </div>
+          <div class="funnel-step-actions" id="taskActions" hidden>
+            <button type="button" class="btn btn-accent" id="funnelTaskNext">Continuer</button>
+          </div>
+        </div>
+
+        <div class="funnel-step" data-step="4" hidden>
+          <button type="button" class="funnel-back" data-back="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
+          <h3>Décrivez votre situation en détail</h3>
+          <div class="funnel-field">
+            <label for="funnelSituation">Réponse obligatoire — soyez le plus détaillé possible</label>
+            <textarea id="funnelSituation" style="min-height:190px;" placeholder="Votre entreprise, votre secteur, ce que vous faites au quotidien, votre situation actuelle, vos points de friction, comment vous pensez pouvoir les améliorer, les opportunités d'automatisation que vous percevez et les questions que vous vous posez. Plus c'est détaillé, plus le diagnostic sera précis."></textarea>
+          </div>
+          <div class="funnel-error" id="funnelSituationError">Merci de détailler votre situation pour recevoir un diagnostic pertinent — quelques mots ne suffisent pas.</div>
+          <div class="funnel-step-actions">
+            <button type="button" class="btn btn-accent" id="funnelStep4Next">Continuer</button>
+          </div>
+        </div>
+
+        <div class="funnel-step" data-step="5" hidden>
+          <button type="button" class="funnel-back" data-back="4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
+          <h3>Dernière étape : où vous envoyer votre diagnostic ?</h3>
+          <div class="funnel-fields-row">
+            <div class="funnel-field">
+              <label for="funnelFirstName">Prénom</label>
+              <input type="text" id="funnelFirstName" autocomplete="given-name">
+            </div>
+            <div class="funnel-field">
+              <label for="funnelPhone">Téléphone</label>
+              <input type="tel" id="funnelPhone" autocomplete="tel">
+            </div>
+          </div>
+          <div class="funnel-field">
+            <label for="funnelCompany">Entreprise</label>
+            <input type="text" id="funnelCompany" autocomplete="organization">
+          </div>
+          <div class="funnel-error" id="funnelError">Merci de remplir les trois champs pour voir votre diagnostic.</div>
+          <div class="funnel-step-actions">
+            <button type="button" class="btn btn-accent" id="funnelSubmit">Voir mon diagnostic</button>
+          </div>
+          <p class="funnel-note-small">Vos coordonnées servent uniquement à vous recontacter au sujet de votre diagnostic.</p>
+        </div>
+
+        <div class="funnel-loading" id="funnelLoading" hidden>
+          <div class="funnel-loading-spinner"></div>
+          <p>Génération de votre diagnostic…</p>
+        </div>
+
+        <div class="funnel-result" id="funnelResult" hidden>
+          <div class="funnel-result-tags" id="funnelResultTags"></div>
+          <h3>Votre diagnostic</h3>
+          <div class="funnel-result-body" id="funnelResultBody"></div>
+          <div class="funnel-result-cta">
+            <a href="#contact" class="btn btn-accent">Réserver mon créneau</a>
+            <a href="#" class="btn btn-outline wa-link">Écrire sur WhatsApp</a>
+          </div>
+          <button type="button" class="funnel-restart" id="funnelRestart">Recommencer le diagnostic</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section-pad" id="services">
     <div class="wrap">
       <div class="section-head reveal">
@@ -601,107 +730,6 @@
     </div>
   </section>
 
-  <section class="funnel section-pad" id="diagnostic">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow" style="margin-bottom:14px;display:inline-flex;">Diagnostic express</span>
-        <h2>Quelles automatisations pour vous ?</h2>
-        <p>Quelques questions, une recommandation personnalisée — pas un chiffre inventé.</p>
-      </div>
-
-      <div class="funnel-panel plaque reveal">
-        <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-
-        <div class="funnel-progress" id="funnelProgress">
-          <span class="funnel-progress-label" id="funnelProgressLabel">Étape 1 / 5</span>
-          <span class="funnel-progress-bar"><span class="funnel-progress-fill" id="funnelProgressFill"></span></span>
-        </div>
-
-        <div class="funnel-step funnel-fx" data-step="1">
-          <h3>Quel est votre secteur ?</h3>
-          <div class="funnel-options" data-question="sector">
-            <button type="button" class="funnel-option" data-value="btp">BTP &amp; Construction<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="services">Agence de services<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="recrutement">Agence de recrutement<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="immobilier">Immobilier<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="comptable">Expert comptable<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="autre">Autre secteur<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-          </div>
-        </div>
-
-        <div class="funnel-step" data-step="2" hidden>
-          <button type="button" class="funnel-back" data-back="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
-          <h3>Quelle est la taille de votre équipe ?</h3>
-          <div class="funnel-options" data-question="size">
-            <button type="button" class="funnel-option" data-value="solo">Solo / indépendant<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="petite">2 à 10 personnes<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="moyenne">11 à 50 personnes<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="grande">50 personnes et +<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-          </div>
-        </div>
-
-        <div class="funnel-step" data-step="3" hidden>
-          <button type="button" class="funnel-back" data-back="2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
-          <h3>Votre priorité n°1 en ce moment ?</h3>
-          <div class="funnel-options" data-question="task">
-            <button type="button" class="funnel-option" data-value="reponse">Réponse clients &amp; SAV<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="leads">Qualification &amp; suivi de leads<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="saisie">Saisie &amp; tâches administratives<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="planning">Planning &amp; coordination<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-            <button type="button" class="funnel-option" data-value="autre_tache">Autre chose<svg class="fo-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg></button>
-          </div>
-        </div>
-
-        <div class="funnel-step" data-step="4" hidden>
-          <button type="button" class="funnel-back" data-back="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
-          <h3>En une phrase, qu'est-ce qui vous ferait gagner le plus de temps ?</h3>
-          <div class="funnel-field">
-            <label for="funnelPainPoint">Réponse libre (facultatif)</label>
-            <textarea id="funnelPainPoint" placeholder="Ex : arrêter de ressaisir les mêmes infos entre nos outils…"></textarea>
-          </div>
-          <div class="funnel-step-actions">
-            <button type="button" class="btn btn-accent" id="funnelStep4Next">Continuer</button>
-          </div>
-        </div>
-
-        <div class="funnel-step" data-step="5" hidden>
-          <button type="button" class="funnel-back" data-back="4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> Précédent</button>
-          <h3>Dernière étape : où vous envoyer votre diagnostic ?</h3>
-          <div class="funnel-fields-row">
-            <div class="funnel-field">
-              <label for="funnelFirstName">Prénom</label>
-              <input type="text" id="funnelFirstName" autocomplete="given-name">
-            </div>
-            <div class="funnel-field">
-              <label for="funnelPhone">Téléphone</label>
-              <input type="tel" id="funnelPhone" autocomplete="tel">
-            </div>
-          </div>
-          <div class="funnel-field">
-            <label for="funnelCompany">Entreprise</label>
-            <input type="text" id="funnelCompany" autocomplete="organization">
-          </div>
-          <div class="funnel-error" id="funnelError">Merci de remplir les trois champs pour voir votre diagnostic.</div>
-          <div class="funnel-step-actions">
-            <button type="button" class="btn btn-accent" id="funnelSubmit">Voir mon diagnostic</button>
-          </div>
-          <p class="funnel-note-small">Vos coordonnées servent uniquement à vous recontacter au sujet de votre diagnostic.</p>
-        </div>
-
-        <div class="funnel-result" id="funnelResult" hidden>
-          <div class="funnel-result-tags" id="funnelResultTags"></div>
-          <h3>Voici par où on commencerait chez vous.</h3>
-          <p id="funnelResultText"></p>
-          <div class="funnel-result-note" id="funnelResultNote"></div>
-          <div class="funnel-result-cta">
-            <a href="#contact" class="btn btn-accent">Réserver mon créneau</a>
-            <a href="#" class="btn btn-outline wa-link">Écrire sur WhatsApp</a>
-          </div>
-          <button type="button" class="funnel-restart" id="funnelRestart">Recommencer le diagnostic</button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="method" id="methode">
     <div class="ma-pin">
@@ -1059,29 +1087,25 @@
 
     /* ---------- Diagnostic express : form funnel ---------- */
     var FUNNEL_SECTORS = {
-      btp: { label:"BTP & Construction", text:"Chez les entreprises du BTP, on commence presque toujours par automatiser le suivi des devis et les relances de chantier — c'est ce qui absorbe le plus de temps sans valeur ajoutée." },
-      services: { label:"Agence de services", text:"Pour une agence de services, le premier chantier gagnant est presque toujours la qualification automatique des leads entrants et le reporting client." },
-      recrutement: { label:"Agence de recrutement", text:"Dans le recrutement, l'automatisation la plus rentable en premier : le tri et la présélection des candidatures, pour ne garder l'humain que sur les entretiens qui comptent." },
-      immobilier: { label:"Immobilier", text:"Dans l'immobilier, on démarre en général par la qualification des leads acheteurs ou locataires et la prise de RDV visite automatique." },
-      comptable: { label:"Expert comptable", text:"Pour un cabinet comptable, la première automatisation qui libère vraiment du temps : les relances clients pour les pièces manquantes et la préparation des dossiers." },
-      autre: { label:"Autre secteur", text:"Chaque secteur a ses spécificités, mais le principe reste le même : on identifie la tâche répétitive à plus fort volume, et on la retire de votre liste en quelques semaines." }
+      btp: "BTP & Construction",
+      services: "Agence de services",
+      recrutement: "Agence de recrutement",
+      immobilier: "Immobilier",
+      comptable: "Expert comptable",
+      autre: "Autre secteur"
     };
     var FUNNEL_SIZES = {
-      solo: { label:"Solo / indépendant", plan:"sprint" },
-      petite: { label:"2 à 10 personnes", plan:"sprint" },
-      moyenne: { label:"11 à 50 personnes", plan:"partenariat" },
-      grande: { label:"50 personnes et +", plan:"partenariat" }
+      solo: "Solo / indépendant",
+      petite: "2 à 10 personnes",
+      moyenne: "11 à 50 personnes",
+      grande: "50 personnes et +"
     };
     var FUNNEL_TASKS = {
-      reponse:"Réponse clients & SAV",
-      leads:"Qualification & suivi de leads",
-      saisie:"Saisie & tâches administratives",
-      planning:"Planning & coordination",
-      autre_tache:"Autre chose"
-    };
-    var FUNNEL_PLANS = {
-      sprint: { name:"Sprint découverte", detail:"un chantier ciblé, sans engagement, à partir de 2 900 €." },
-      partenariat: { name:"Partenariat continu", detail:"un chantier automatisé livré chaque mois, à partir de 4 900 €/mois." }
+      reponse: "Réponse clients & SAV",
+      leads: "Qualification & suivi de leads",
+      saisie: "Saisie & tâches administratives",
+      planning: "Planning & coordination",
+      autre_tache: "Autre chose"
     };
 
     var SUPABASE_URL = 'https://swmkvgszzvnylmbdaixz.supabase.co';
@@ -1092,10 +1116,15 @@
       var funnelAnswers = {};
       var funnelSteps = funnelPanel.querySelectorAll('.funnel-step');
       var funnelResult = document.getElementById('funnelResult');
+      var funnelLoading = document.getElementById('funnelLoading');
       var funnelProgress = document.getElementById('funnelProgress');
       var funnelProgressFill = document.getElementById('funnelProgressFill');
       var funnelProgressLabel = document.getElementById('funnelProgressLabel');
       var funnelTotalSteps = 5;
+
+      function funnelEscapeHtml(str){
+        return String(str == null ? '' : str).replace(/[&<>"']/g, function(m){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]; });
+      }
 
       function funnelShow(el){
         el.hidden = false;
@@ -1105,13 +1134,24 @@
       }
       function funnelGoTo(stepNum){
         funnelSteps.forEach(function(step){ step.hidden = (step.dataset.step !== String(stepNum)); });
-        if(!funnelResult.hidden) funnelResult.hidden = true;
+        if(funnelResult && !funnelResult.hidden) funnelResult.hidden = true;
+        if(funnelLoading) funnelLoading.hidden = true;
         var current = funnelPanel.querySelector('.funnel-step[data-step="' + stepNum + '"]');
         if(current) funnelShow(current);
         if(funnelProgress) funnelProgress.hidden = false;
         if(funnelProgressLabel) funnelProgressLabel.textContent = 'Étape ' + stepNum + ' / ' + funnelTotalSteps;
         if(funnelProgressFill) funnelProgressFill.style.width = (stepNum / funnelTotalSteps * 100) + '%';
       }
+
+      var sectorOtherField = document.getElementById('sectorOtherField');
+      var sectorOtherActions = document.getElementById('sectorOtherActions');
+      var sectorOtherInput = document.getElementById('funnelSectorOther');
+
+      var taskOtherField = document.getElementById('taskOtherField');
+      var taskDetailField = document.getElementById('taskDetailField');
+      var taskActions = document.getElementById('taskActions');
+      var taskOtherInput = document.getElementById('funnelTaskOther');
+      var taskDetailInput = document.getElementById('funnelTaskDetail');
 
       funnelSteps.forEach(function(step){
         var stepNum = step.dataset.step;
@@ -1127,17 +1167,80 @@
             optionsWrap.querySelectorAll('.funnel-option').forEach(function(b){ b.classList.remove('selected'); });
             btn.classList.add('selected');
             funnelAnswers[question] = btn.dataset.value;
+
+            if(question === 'sector'){
+              if(btn.dataset.value === 'autre'){
+                sectorOtherField.hidden = false;
+                sectorOtherActions.hidden = false;
+                sectorOtherInput.focus();
+              } else {
+                sectorOtherField.hidden = true;
+                sectorOtherActions.hidden = true;
+                setTimeout(function(){ funnelGoTo(2); }, 280);
+              }
+              return;
+            }
+
+            if(question === 'task'){
+              taskOtherField.hidden = (btn.dataset.value !== 'autre_tache');
+              taskDetailField.hidden = false;
+              taskActions.hidden = false;
+              (btn.dataset.value === 'autre_tache' ? taskOtherInput : taskDetailInput).focus();
+              return;
+            }
+
             setTimeout(function(){ funnelGoTo(parseInt(stepNum, 10) + 1); }, 280);
           });
         });
       });
 
+      var funnelSectorOtherNext = document.getElementById('funnelSectorOtherNext');
+      if(funnelSectorOtherNext){
+        funnelSectorOtherNext.addEventListener('click', function(){
+          var val = sectorOtherInput.value.trim();
+          if(!val){ sectorOtherInput.focus(); return; }
+          funnelAnswers.sector = val;
+          funnelGoTo(2);
+        });
+      }
+
+      var funnelTaskNext = document.getElementById('funnelTaskNext');
+      if(funnelTaskNext){
+        funnelTaskNext.addEventListener('click', function(){
+          if(funnelAnswers.task === 'autre_tache'){
+            var val = taskOtherInput.value.trim();
+            if(!val){ taskOtherInput.focus(); return; }
+            funnelAnswers.task = val;
+          }
+          funnelAnswers.taskDetail = taskDetailInput.value.trim();
+          funnelGoTo(4);
+        });
+      }
+
+      [sectorOtherInput, taskOtherInput].forEach(function(input){
+        if(!input) return;
+        input.addEventListener('keydown', function(e){
+          if(e.key === 'Enter'){
+            e.preventDefault();
+            (input === sectorOtherInput ? funnelSectorOtherNext : funnelTaskNext).click();
+          }
+        });
+      });
+
       var funnelStep4Next = document.getElementById('funnelStep4Next');
+      var funnelSituationError = document.getElementById('funnelSituationError');
       if(funnelStep4Next){
         funnelStep4Next.addEventListener('click', function(e){
           e.preventDefault();
-          var painPointEl = document.getElementById('funnelPainPoint');
-          funnelAnswers.painPoint = painPointEl ? painPointEl.value.trim() : '';
+          var situationEl = document.getElementById('funnelSituation');
+          var situation = situationEl.value.trim();
+          if(situation.length < 30){
+            if(funnelSituationError) funnelSituationError.classList.add('show');
+            situationEl.focus();
+            return;
+          }
+          if(funnelSituationError) funnelSituationError.classList.remove('show');
+          funnelAnswers.situation = situation;
           funnelGoTo(5);
         });
       }
@@ -1161,12 +1264,19 @@
           funnelAnswers.firstName = firstName;
           funnelAnswers.phone = phone;
           funnelAnswers.company = company;
-          funnelSubmitLead(funnelAnswers);
-          funnelRenderResult();
+          funnelStartDiagnostic();
         });
       }
 
-      function funnelSubmitLead(answers){
+      function funnelShowLoading(){
+        funnelSteps.forEach(function(step){ step.hidden = true; });
+        if(funnelProgress) funnelProgress.hidden = true;
+        if(funnelResult) funnelResult.hidden = true;
+        funnelLoading.hidden = false;
+        funnelShow(funnelLoading);
+      }
+
+      function funnelInsertLead(answers, diagnostic){
         fetch(SUPABASE_URL + '/rest/v1/leads', {
           method: 'POST',
           headers: {
@@ -1182,27 +1292,59 @@
             sector: answers.sector || null,
             team_size: answers.size || null,
             priority: answers.task || null,
-            pain_point: answers.painPoint || null
+            pain_point: [
+              answers.taskDetail ? 'Précision sur la priorité : ' + answers.taskDetail : null,
+              answers.situation || null
+            ].filter(Boolean).join('\n\n') || null,
+            internal_note: diagnostic ? ('Diagnostic généré automatiquement :\n\n' + diagnostic) : null
           })
         }).catch(function(err){ console.warn('Lead non enregistré (backend injoignable) :', err); });
       }
 
-      function funnelRenderResult(){
-        var sector = FUNNEL_SECTORS[funnelAnswers.sector];
-        var size = FUNNEL_SIZES[funnelAnswers.size];
-        var task = FUNNEL_TASKS[funnelAnswers.task];
-        var plan = FUNNEL_PLANS[size.plan];
+      function funnelFetchDiagnostic(answers){
+        return fetch(SUPABASE_URL + '/functions/v1/generate-funnel-diagnostic', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY },
+          body: JSON.stringify({
+            first_name: answers.firstName,
+            company: answers.company,
+            sector_label: FUNNEL_SECTORS[answers.sector] || answers.sector,
+            team_size_label: FUNNEL_SIZES[answers.size] || answers.size,
+            priority_label: FUNNEL_TASKS[answers.task] || answers.task,
+            priority_detail: answers.taskDetail || '',
+            situation: answers.situation || ''
+          })
+        }).then(function(r){ return r.json(); }).catch(function(err){ console.warn('Diagnostic indisponible :', err); return {}; });
+      }
+
+      function funnelStartDiagnostic(){
+        funnelShowLoading();
+        funnelFetchDiagnostic(funnelAnswers).then(function(res){
+          var diagnostic = res && res.diagnostic ? res.diagnostic : null;
+          funnelInsertLead(funnelAnswers, diagnostic);
+          funnelRenderResult(diagnostic);
+        });
+      }
+
+      function funnelRenderResult(diagnostic){
+        var sectorLabel = FUNNEL_SECTORS[funnelAnswers.sector] || funnelAnswers.sector;
+        var sizeLabel = FUNNEL_SIZES[funnelAnswers.size] || funnelAnswers.size;
+        var taskLabel = FUNNEL_TASKS[funnelAnswers.task] || funnelAnswers.task;
 
         document.getElementById('funnelResultTags').innerHTML =
-          '<span>' + sector.label + '</span><span>' + size.label + '</span><span>' + task + '</span>';
-        document.getElementById('funnelResultText').textContent =
-          (funnelAnswers.firstName ? funnelAnswers.firstName + ', voici' : 'Voici') + ' ce qu\'on ferait chez vous en premier : ' + sector.text;
-        document.getElementById('funnelResultNote').innerHTML =
-          'Vu la taille de votre équipe, on démarrerait plutôt par un <strong>' + plan.name + '</strong> — ' + plan.detail + ' <a href="#tarifs">Voir l\'offre →</a>';
+          '<span>' + funnelEscapeHtml(sectorLabel) + '</span><span>' + funnelEscapeHtml(sizeLabel) + '</span><span>' + funnelEscapeHtml(taskLabel) + '</span>';
 
+        var text = diagnostic || ('Merci' + (funnelAnswers.firstName ? ' ' + funnelAnswers.firstName : '') + ' pour toutes ces informations. On revient vers vous très rapidement avec une recommandation personnalisée.');
+        var paragraphs = text.split(/\n\s*\n/).filter(Boolean);
+        document.getElementById('funnelResultBody').innerHTML = paragraphs.map(function(p){
+          return '<p>' + funnelEscapeHtml(p).replace(/\n/g, '<br>') + '</p>';
+        }).join('');
+
+        funnelLoading.hidden = true;
         funnelSteps.forEach(function(step){ step.hidden = true; });
         if(funnelProgress) funnelProgress.hidden = true;
         funnelShow(funnelResult);
+        funnelResult.hidden = false;
       }
 
       var funnelRestart = document.getElementById('funnelRestart');
@@ -1210,13 +1352,13 @@
         funnelRestart.addEventListener('click', function(){
           funnelAnswers = {};
           funnelPanel.querySelectorAll('.funnel-option.selected').forEach(function(b){ b.classList.remove('selected'); });
-          var painPointEl = document.getElementById('funnelPainPoint');
-          if(painPointEl) painPointEl.value = '';
-          ['funnelFirstName','funnelPhone','funnelCompany'].forEach(function(id){
+          [sectorOtherField, sectorOtherActions, taskOtherField, taskDetailField, taskActions].forEach(function(el){ if(el) el.hidden = true; });
+          ['funnelSectorOther','funnelTaskOther','funnelTaskDetail','funnelSituation','funnelFirstName','funnelPhone','funnelCompany'].forEach(function(id){
             var el = document.getElementById(id);
             if(el) el.value = '';
           });
           if(funnelErrorEl) funnelErrorEl.classList.remove('show');
+          if(funnelSituationError) funnelSituationError.classList.remove('show');
           funnelGoTo(1);
         });
       }
