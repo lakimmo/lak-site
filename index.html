@@ -361,6 +361,17 @@
   .wa-float span{ position:relative; z-index:1; }
   .wa-float:hover{ transform:translateY(-2px); }
   @media (max-width:600px){ .wa-float span{ display:none; } .wa-float{ padding:14px; } }
+
+  .wa-popup{ position:fixed; right:22px; bottom:96px; z-index:201; width:280px; padding:20px 20px 18px; opacity:0; transform:translateY(14px) scale(.96); pointer-events:none; transition:opacity .35s var(--ease), transform .35s var(--ease); }
+  .wa-popup.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  .wa-popup-close{ position:absolute; top:10px; right:10px; background:none; border:none; color:var(--ink-faint); cursor:pointer; width:22px;height:22px; padding:0; }
+  .wa-popup-close svg{ width:13px;height:13px; }
+  .wa-popup-close:hover{ color:var(--accent); }
+  .wa-popup p{ font-size:14px; line-height:1.5; margin:4px 26px 12px 0; }
+  .wa-popup-meta{ display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:11px; color:var(--ink-dim); margin-bottom:16px; }
+  .wa-popup-dot{ width:7px;height:7px; border-radius:50%; background:#25D366; flex:none; box-shadow:0 0 0 3px rgba(37,211,102,.2); }
+  .wa-popup .btn{ width:100%; justify-content:center; padding:11px; }
+  @media (max-width:600px){ .wa-popup{ right:12px; left:12px; width:auto; bottom:88px; } }
 </style>
 
 <a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Écrire sur WhatsApp">
@@ -368,6 +379,14 @@
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.09c-.24.68-1.4 1.3-1.93 1.37-.5.07-1.05.1-3.03-.63-2.55-.95-4.2-3.55-4.33-3.72-.13-.17-1.03-1.37-1.03-2.62s.65-1.85.88-2.1c.23-.25.5-.31.67-.31l.48.01c.15.01.36-.06.56.43.24.58.8 2 .87 2.15.07.15.11.32.02.5-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.13-.28.28-.12.55.16.27.7 1.15 1.5 1.86 1.03.92 1.9 1.21 2.17 1.35.27.14.43.12.59-.07.16-.19.68-.79.87-1.06.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.88.27.13.45.2.51.31.07.12.07.68-.17 1.36Z"/></svg>
   <span>WhatsApp</span>
 </a>
+
+<div class="wa-popup plaque" id="waPopup" hidden>
+  <span class="tick tl"></span><span class="tick br"></span>
+  <button class="wa-popup-close" id="waPopupClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <p>Un projet en tête ? Envoyez-moi un message directement sur WhatsApp.</p>
+  <div class="wa-popup-meta"><span class="wa-popup-dot"></span> Réponse en moins d'une heure</div>
+  <a href="#" class="btn btn-accent wa-link" id="waPopupBtn">Envoyer un message</a>
+</div>
 
 <header id="siteHeader">
   <a href="#top" class="logo"><img src="assets/logo-wordmark.png" alt="LAK"></a>
@@ -408,9 +427,9 @@
         <h1>On construit l'IA qui fait le travail à votre place.</h1>
         <p class="sub">Automatisations, agents et intégrations sur-mesure, conçus sur vos outils existants et livrés en sprints de deux à quatre semaines.</p>
         <div class="cta-row">
-          <a href="#" class="btn btn-accent wa-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.09c-.24.68-1.4 1.3-1.93 1.37-.5.07-1.05.1-3.03-.63-2.55-.95-4.2-3.55-4.33-3.72-.13-.17-1.03-1.37-1.03-2.62s.65-1.85.88-2.1c.23-.25.5-.31.67-.31l.48.01c.15.01.36-.06.56.43.24.58.8 2 .87 2.15.07.15.11.32.02.5-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.13-.28.28-.12.55.16.27.7 1.15 1.5 1.86 1.03.92 1.9 1.21 2.17 1.35.27.14.43.12.59-.07.16-.19.68-.79.87-1.06.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.88.27.13.45.2.51.31.07.12.07.68-.17 1.36Z"/></svg>
-            Discuter sur WhatsApp
+          <a href="#contact" class="btn btn-accent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+            Prendre un RDV
           </a>
           <a href="#realisations" class="btn btn-outline">Voir nos réalisations</a>
         </div>
@@ -874,6 +893,20 @@
     var WA_URL = "https://wa.me/33769892601?text=" + encodeURIComponent("Bonjour LAK, je souhaite échanger sur un projet d'automatisation IA.");
     document.querySelectorAll('.wa-link').forEach(function(el){ el.setAttribute('href', WA_URL); el.setAttribute('target','_blank'); el.setAttribute('rel','noopener'); });
     var waFloat = document.getElementById('waFloat'); if(waFloat) waFloat.setAttribute('href', WA_URL);
+
+    var waPopup = document.getElementById('waPopup');
+    if(waPopup){
+      function hideWaPopup(){ waPopup.classList.remove('show'); sessionStorage.setItem('wa_popup_seen', '1'); }
+      if(!sessionStorage.getItem('wa_popup_seen')){
+        setTimeout(function(){
+          waPopup.hidden = false;
+          requestAnimationFrame(function(){ waPopup.classList.add('show'); });
+        }, 10000);
+      }
+      document.getElementById('waPopupClose').addEventListener('click', hideWaPopup);
+      document.getElementById('waPopupBtn').addEventListener('click', hideWaPopup);
+      waFloat.addEventListener('click', hideWaPopup);
+    }
 
     if(location.hostname === 'localhost' || location.hostname === '127.0.0.1'){
       document.querySelectorAll('.espace-client-link').forEach(function(a){ a.setAttribute('href', location.origin + '/app.html'); });
