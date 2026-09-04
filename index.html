@@ -1318,7 +1318,7 @@
               answers.taskDetail ? 'Précision sur la priorité : ' + answers.taskDetail : null,
               answers.situation || null
             ].filter(Boolean).join('\n\n') || null,
-            internal_note: diagnostic ? ('Diagnostic généré automatiquement :\n\n' + diagnostic) : null
+            ai_diagnostic: diagnostic || null
           })
         }).catch(function(err){ console.warn('Lead non enregistré (backend injoignable) :', err); });
       }
